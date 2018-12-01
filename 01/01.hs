@@ -1,10 +1,10 @@
 import Data.Set
 import System.Environment
 
-readFreqs f = do
-    freqsStr <- fmap lines $ readFile f
-    return (fmap parseInt freqsStr)
-        where parseInt x = if (head x) == '+' then read (tail x) else read x
+readFreqs f = fmap parse . lines <$> readFile f
+    where parse x
+            | head x == '+' = read (tail x)
+            | otherwise     = read x
 
 firstDup l = firstDup' l (fromList [])
     where firstDup' l' known
