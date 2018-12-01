@@ -6,11 +6,9 @@ readFreqs f = do
     return (fmap parseInt freqsStr)
         where parseInt x = if (head x) == '+' then read (tail x) else read x
 
-findDupFreq cur freqs known =
-    if next `member` known then
-        next
-    else
-        findDupFreq next (tail freqs) (insert next known)
+findDupFreq cur freqs known
+    | next `member` known = next
+    | otherwise           = findDupFreq next (tail freqs) (insert next known)
     where
         next = cur + (head freqs)
 
