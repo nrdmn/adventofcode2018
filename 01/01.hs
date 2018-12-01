@@ -6,14 +6,13 @@ readFreqs f = do
     return (fmap parseInt freqsStr)
         where parseInt x = if (head x) == '+' then read (tail x) else read x
 
-findDupFreq cur freqs known
-    | next `member` known = next
-    | otherwise           = findDupFreq next (tail freqs) (insert next known)
-    where
-        next = cur + (head freqs)
+firstDup l = firstDup' l (fromList [])
+    where firstDup' l' known
+            | (head l') `member` known = head l'
+            | otherwise                = firstDup' (tail l') (insert (head l') known)
 
 main = do
     args <- getArgs
     freqs <- readFreqs (head args)
     print $ sum freqs
-    print $ findDupFreq 0 (cycle freqs) (fromList [0])
+    print $ firstDup (0:(scanl1 (+) (cycle freqs)))
