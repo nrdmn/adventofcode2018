@@ -1,4 +1,5 @@
 import Data.Set
+import System.Environment
 
 readFreqs f = do
     freqsStr <- fmap lines $ readFile f
@@ -14,6 +15,7 @@ findDupFreq cur freqs known =
         next = cur + (head freqs)
 
 main = do
-    freqs <- readFreqs "input"
+    args <- getArgs
+    freqs <- readFreqs (head args)
     print $ sum freqs
     print $ findDupFreq 0 (cycle freqs) (fromList [0])
