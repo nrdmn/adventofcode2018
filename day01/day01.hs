@@ -6,7 +6,7 @@ readFreqs f = fmap parse . lines <$> readFile f
             | head x == '+' = read (tail x)
             | otherwise     = read x
 
-firstDup l = firstDup' l (fromList [])
+firstDup l = firstDup' l empty
     where firstDup' l' known
             | (head l') `member` known = head l'
             | otherwise                = firstDup' (tail l') (insert (head l') known)
