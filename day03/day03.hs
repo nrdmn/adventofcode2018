@@ -19,5 +19,5 @@ coverage s = foldl (\acc x -> cover x acc) Map.empty s
 main = do
     args <- getArgs
     squares <- (fmap parseSquare) <$> lines <$> readFile (head args)
-    print $ length $ Map.filter (> 1) (coverage squares)
-    print $ sqid . fst <$> filter (\x -> Map.isSubmapOf (snd x) (coverage squares)) (map (\x -> (id x, coverage [x])) squares)
+    print $ Map.foldl (\acc x -> acc + fromEnum (x > 1)) 0 (coverage squares)
+    print $ sqid . fst . head $ filter (\x -> Map.isSubmapOf (snd x) (coverage squares)) (map (\x -> (id x, coverage [x])) squares)
