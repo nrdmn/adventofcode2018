@@ -3,3 +3,7 @@
 ghc day02.hs
 ./day02 input
 ```
+```
+5904
+"jiwamotgsfrudclzbyzkhlrvp"
+```
