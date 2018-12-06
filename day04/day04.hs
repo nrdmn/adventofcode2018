@@ -16,10 +16,10 @@ parse l = parse2 <$> parse1 <$> sort <$> foldl (\acc x -> Map.insertWith (++) (r
           readMin x = read ((words $ map replace x)!!4) :: Int
           parse2 = foldl (\acc x -> foldl (\acc' y -> Map.insertWith (+) y 1 acc') acc [fst x .. (fst x) + (snd x) - 1]) Map.empty
 
-sleepyMinute x = foldl (\acc x -> if (snd x) > (snd acc) then x else acc) (0, 0) <$> Map.assocs <$> Map.filter (not . null) x
-sleepiest x = fst $ foldl (\acc x -> if (snd x) > (snd acc) then x else acc) (0, 0) $ Map.assocs $ fmap (Map.foldl (\acc x -> acc + x) 0) x
+sleepyMinute x = foldl1 (\acc x -> if (snd x) > (snd acc) then x else acc) <$> Map.assocs <$> Map.filter (not . null) x
+sleepiest x = fst $ foldl1 (\acc x -> if (snd x) > (snd acc) then x else acc) $ Map.assocs $ fmap (Map.foldl (\acc x -> acc + x) 0) x
 mostSleepInAMinute x = (fst f, fst $ snd f)
-    where f = foldl (\acc x -> if (snd $ snd x) > (snd $ snd acc) then x else acc) (0,(0,0)) $ Map.assocs $ sleepyMinute x
+    where f = foldl1 (\acc x -> if (snd $ snd x) > (snd $ snd acc) then x else acc) $ Map.assocs $ sleepyMinute x
 
 
 main = do
