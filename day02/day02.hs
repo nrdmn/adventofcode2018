@@ -3,7 +3,7 @@ import qualified Data.Map.Strict as Map
 
 countOccurences l = foldl (\acc x -> Map.insertWith (+) x 1 acc) Map.empty l
 containsN n l = Map.filter (== n) (countOccurences l) /= Map.empty
-diff a b = foldl (\acc x -> acc + (fromEnum $ uncurry (/=) x)) 0 (zip a b)
+diff a b = sum $ map (\x -> fromEnum $ uncurry (/=) x) (zip a b)
 pairs [] = []
 pairs (x:xs) = map ((,) x) xs ++ pairs xs
 
