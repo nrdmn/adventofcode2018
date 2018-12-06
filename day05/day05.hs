@@ -14,4 +14,4 @@ main = do
     args <- getArgs
     input <- filter isLetter <$> readFile (head args)
     print $ length $ reduce input
-    print $ snd $ foldl (\acc x -> if (snd x) < (snd acc) then x else acc) (' ', length input) $ (\c -> (c, length $ reduce $ filter (\d -> (toLower d) /= c) input)) <$> ['a'..'z']
+    print $ foldl1 min $ (\c -> length $ reduce $ filter (\d -> (toLower d) /= c) input) <$> ['a'..'z']
