@@ -2,6 +2,7 @@ import System.Environment
 import qualified Data.Map.Strict as Map
 import Data.Maybe
 import qualified Data.Set as Set
+import Data.List
 
 first (x,_,_,_) = x
 second (_,x,_,_) = x
@@ -27,5 +28,5 @@ main = do
                       in o1 ++ o2 ++ o3 ++ o4
     let infinites = rmdups $ snd <$> distanceMap input outside
     let insideDistanceMap = filter (\x -> (snd x) `notElem` infinites) $ distanceMap input inside
-    print $ foldl1 max <$> fmap snd <$> Map.toList $ foldl (\acc x -> Map.insertWith (+) (snd x) 1 acc) Map.empty insideDistanceMap
+    print $ maximum <$> fmap snd <$> Map.toList $ foldl (\acc x -> Map.insertWith (+) (snd x) 1 acc) Map.empty insideDistanceMap
     print $ length $ filter (<10000) $ map (\x -> sum $ map (distance x) input) inside
