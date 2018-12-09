@@ -15,4 +15,4 @@ main = do
     args <- getArgs
     freqs <- readFreqs (head args)
     print $ sum freqs
-    print $ firstDup (0:(scanl1 (+) (cycle freqs)))
+    print $ firstDup (scanl (+) 0 (cycle freqs))
