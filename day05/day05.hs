@@ -5,10 +5,10 @@ reduce x
     | (length x) /= (length $ r x) = reduce $ r x
     | otherwise                    = x
     where r (x:y:xs)
-              | (isLower x) && (isUpper y) && (x == (toLower y)) = r xs
-              | (isUpper x) && (isLower y) && ((toLower x) == y) = r xs
-              | otherwise                                        = x : (r (y:xs))
-          r (a) = a
+              | x /= y && (x == (toLower y)) = r xs
+              | x /= y && ((toLower x) == y) = r xs
+              | otherwise                    = x : (r (y:xs))
+          r a = a
 
 main = do
     args <- getArgs
