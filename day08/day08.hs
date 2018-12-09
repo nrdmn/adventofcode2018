@@ -22,8 +22,8 @@ parse (x:y:xs) = let
 part1 (Node c m) = sum m + (sum $ map part1 c)
 
 (!?) l n
-    | n < length l = Just (l !! n)
-    | otherwise    = Nothing
+    | n < length l && n >= 0 = Just (l !! n)
+    | otherwise              = Nothing
 
 part2 (Node [] m) = sum m
 part2 (Node c m) = sum $ part2 <$> (catMaybes $ map (\x -> c !? (x-1)) m)
