@@ -1,12 +1,9 @@
 import System.Environment
 import qualified Data.Map.Strict as Map
-import qualified Data.Set as Set
 import qualified Data.List as List
 import Data.Maybe
 import Data.Char
 import Data.Ord
-
-rmdups = Set.toList . Set.fromList
 
 part1 g
     | null g    = []
@@ -28,7 +25,7 @@ part2 n graph = maximum $ snd $ part2' (fmap (\x -> (x, Nothing)) graph, (replic
 main = do
     args <- getArgs
     input <- map (\x -> (x!!5, x!!36)) <$> lines <$> readFile (head args)
-    let graph = let all     = rmdups $ (map fst input) ++ (map snd input)
+    let graph = let all     = List.nub $ (map fst input) ++ (map snd input)
                     pending = foldl (\acc x -> Map.insertWith (++) (snd x) [(fst x)] acc) Map.empty input
                     done    = filter (\x -> Map.notMember x pending) all
                     in foldl (\acc x -> Map.insert x "" acc) pending done

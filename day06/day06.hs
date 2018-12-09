@@ -1,7 +1,6 @@
 import System.Environment
 import qualified Data.Map.Strict as Map
 import Data.Maybe
-import qualified Data.Set as Set
 import Data.List
 
 first (x,_,_,_) = x
@@ -15,7 +14,6 @@ closest p l = if (length $ filter (\x -> snd x == snd smallest) distances) == 1 
     where distances = map (\x -> (x, distance p x)) l
           smallest  = foldl1 (\acc x -> if (snd x) < (snd acc) then x else acc) $ distances
 distanceMap a b = map (\x -> (fst x, fromJust $ snd x)) $ filter (isJust . snd) $ map (\x -> (x, closest x a)) b
-rmdups = Set.toList . Set.fromList
 
 main = do
     args <- getArgs
@@ -26,7 +24,7 @@ main = do
                       o3 = [((first $ bounds input)-1, y) | y <- [(second $ bounds input)-1 .. (fourth $ bounds input)+1]]
                       o4 = [((third $ bounds input)+1, y) | y <- [(second $ bounds input)-1 .. (fourth $ bounds input)+1]]
                       in o1 ++ o2 ++ o3 ++ o4
-    let infinites = rmdups $ snd <$> distanceMap input outside
+    let infinites = nub $ snd <$> distanceMap input outside
     let insideDistanceMap = filter (\x -> (snd x) `notElem` infinites) $ distanceMap input inside
     print $ maximum <$> fmap snd <$> Map.toList $ foldl (\acc x -> Map.insertWith (+) (snd x) 1 acc) Map.empty insideDistanceMap
     print $ length $ filter (<10000) $ map (\x -> sum $ map (distance x) input) inside
