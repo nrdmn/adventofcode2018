@@ -10,5 +10,5 @@ pairs (x:xs) = map ((,) x) xs ++ pairs xs
 main = do
     args <- getArgs
     ids <- lines <$> readFile (head args)
-    print $ uncurry (*) $ foldl (\acc x -> (fst acc + fromEnum (containsN 2 x), snd acc + fromEnum (containsN 3 x))) (0, 0) ids
+    print $ uncurry (*) $ foldl (\(acc1, acc2) x -> (acc1 + fromEnum (containsN 2 x), acc2 + fromEnum (containsN 3 x))) (0, 0) ids
     print $ fst $ unzip $ filter (uncurry (==)) $ uncurry zip $ head $ filter (\x -> 1 == uncurry diff x) (pairs ids)
