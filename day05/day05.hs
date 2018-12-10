@@ -1,14 +1,11 @@
 import System.Environment
 import Data.Char
 
-reduce x
-    | (length x) /= (length $ r x) = reduce $ r x
-    | otherwise                    = x
-    where r (x:y:xs)
-              | x /= y && (x == (toLower y)) = r xs
-              | x /= y && ((toLower x) == y) = r xs
-              | otherwise                    = x : (r (y:xs))
-          r a = a
+reduce l = foldl reduce' [] l
+    where reduce' [] x = [x]
+          reduce' acc@(y:_) x
+            | x /= y && (toLower x) == (toLower y) = tail acc
+            | otherwise                            = x:acc
 
 main = do
     args <- getArgs
